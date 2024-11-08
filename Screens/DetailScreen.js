@@ -2,21 +2,11 @@ import react, { useState } from "react";
 import { FlatList, Text, View, Image } from "react-native";
 import Products from "../api/Products";
 import { useEffect } from "react";
+import useProductDetails from "./hooks/useProductDetails";
 
 const DetailScreen = ({ route }) => {
     const id = route.params.id;
-    const [productImages, setProductImages] = useState([]);
-    const [errorMessage, setErrorMessage] = useState("");
-
-    const getProductImages = async (id) => {
-        try{
-        const response = await Products.get(`products/${id}`);
-        console.log(response.data.images);
-        setProductImages(response.data.images);
-        }catch (error) {
-          setErrorMessage("Something went wrong!")
-        }
-    }
+    const [productImages, getProductImages, errorMessage] = useProductDetails();
 
     useEffect(() => {
          getProductImages(id)   
